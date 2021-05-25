@@ -1,18 +1,23 @@
 var {EmailManager} = require('./EmailManager');
 
 async function main(){
-    let manager = new EmailManager("joaco.iudica99@gmail.com");
+    let credentials = {
+        user: 'xxx',
+        pass: 'xxx'
+    };
 
-    let details = {
+    let manager = new EmailManager(credentials);
+
+    let mailDetails = {
         toEmail: 'joaquin.iudica@gmail.com',
         subject: 'Saludando a joaco',
         body: 'HOLA JOACO COMO ANDAS'
     };
 
-    manager.sendEmail(details).then(r => {
+    manager.sendEmail(mailDetails).then(r => {
         console.log(r);
-    }).catch(res => {
-        console.log(res);
+    }).catch(error => {
+        console.log(error.message);
     })
 
     //console.log(response);

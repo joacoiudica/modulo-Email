@@ -1,22 +1,22 @@
 var nodemailer = require('nodemailer');
-var credentials = require('../mailcred/credentials.json'); //uso un archivo json para guardar credenciales
+//var credentials = require('../mailcred/credentials.json'); 
 
 class EmailManager {
-    constructor(fromEmail){
+    constructor({user, pass}){
         this.transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth: {
-                user: credentials.user,
-                pass: credentials.pass
+                user: user,
+                pass: pass
             }
         })
-        this.email = fromEmail;
+        if(user) this.senderEmail = user;
     }
 
     sendEmail({toEmail, subject, body}){
         return new Promise((resolve, reject) => {
             this.transporter.sendMail({
-                from: this.email,
+                from: this.senderEmail,
                 to: toEmail,
                 subject: subject,
                 text: body
@@ -25,7 +25,7 @@ class EmailManager {
                 //supongo que si no tiene OK en el response, fallo el envio.. a chequear
                 let response = r.response; 
                 if(response.includes('OK')) resolve('success');
-                else reject(new Error('hubo un error'));
+                else reject(new Error('hubo un error al mandar el mail'));
             })
         });
     }
