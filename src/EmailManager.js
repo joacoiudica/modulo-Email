@@ -1,17 +1,17 @@
 var nodemailer = require('nodemailer');
-
-
+var credentials = require('../mailcred/credentials.json'); //uso un archivo json para guardar credenciales
 
 class EmailManager {
-    //los datos de auth no van a ser los mismos que de donde va a salir el mail?
     constructor(fromEmail){
         this.transporter = nodemailer.createTransport({
             service: 'Gmail',
-            //auth: auth <-- obtengo credenciales desde archivo
+            auth: {
+                user: credentials.user,
+                pass: credentials.pass
+            }
         })
         this.email = fromEmail;
     }
-
 
     sendEmail({toEmail, subject, body}){
         return new Promise((resolve, reject) => {
@@ -22,8 +22,9 @@ class EmailManager {
                 text: body
             }).then(r =>{
                 console.log(r);
-                //supongo que si no tiene OK en el response, fallo el envio.. a chequear 
-                if(r.response.contains('OK')) resolve('success');
+                //supongo que si no tiene OK en el response, fallo el envio.. a chequear
+                let response = r.response; 
+                if(response.includes('OK')) resolve('success');
                 else reject(new Error('hubo un error'));
             })
         });
