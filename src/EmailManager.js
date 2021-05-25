@@ -31,4 +31,4 @@ class EmailManager {
 
 }
 
-module.exports = EmailManager
+module.exports = {EmailManager}
