@@ -6,7 +6,7 @@ async function main(){
         pass: 'xxx'
     };
 
-    let manager = new EmailManager(credentials);
+    const manager = new EmailManager(credentials);
 
     let mailDetails = {
         toEmail: 'joaquin.iudica@gmail.com',
@@ -18,9 +18,7 @@ async function main(){
         console.log(r);
     }).catch(error => {
         console.log(error.message);
-    })
-
-    //console.log(response);
+    });
 
 }
 
