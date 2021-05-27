@@ -14,14 +14,15 @@ class EmailManager {
         this.senderEmail = user;
     }
 
-    sendEmail({toEmail, subject, body, attachments}){
+    sendEmail({toEmail, subject, body}){
         return new Promise((resolve, reject) => {
-            this.transporter.sendMail({
+            let mail = {
                 from: this.senderEmail,
                 to: toEmail,
                 subject: subject,
-                text: body
-            }).then(r =>{
+            }
+            if(body) mail.text = body;
+            this.transporter.sendMail(mail).then(r =>{
                 //console.log(r);
                 let response = r.response; 
                 if(response.includes('OK')) resolve('success');
