@@ -1,20 +1,42 @@
 var {EmailManager} = require('./EmailManager');
+var credentials = require('../cred/credentials.json');
+
+const cred = {
+    user: credentials.user,
+    pass: credentials.pass
+}
 
 async function main(){
-    let credentials = {
-        user: 'xxx',
-        pass: 'xxx'
-    };
 
-    const manager = new EmailManager(credentials);
+    const manager = new EmailManager(cred);
 
-    let mailDetails = {
+    const mail1 = {
         toEmail: 'joaquin.iudica@gmail.com',
         subject: 'Saludando a joaco',
         body: 'HOLA JOACO COMO ANDAS'
     };
 
-    manager.sendEmail(mailDetails).then(r => {
+    manager.sendEmail(mail1).then(r => {
+        console.log(r);
+    }).catch(error => {
+        console.log(error.message);
+    });
+
+    const mail2 = {
+        toEmail: 'joaquin.iudica@gmail.com',
+        subject: 'Hola joaco',
+        body: 'Te adjunto aca el archivo'
+    } 
+
+    const att = [
+        {
+            filename: 'prueba.txt',
+            content: 'hola joaco',
+            contentType: 'text/plain'
+        }
+    ]
+
+    manager.sendEmailWithAttachment(mail2, att).then(r => {
         console.log(r);
     }).catch(error => {
         console.log(error.message);
