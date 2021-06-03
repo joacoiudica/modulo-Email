@@ -2,8 +2,8 @@ var nodemailer = require('nodemailer');
 
 const service = 'Gmail';
 
-const success = 'Email enviado correctamente';
-const fail = 'Ha fallado el envio de mail';
+const success = 'Email enviado correctamente: ';
+const fail = 'Ha fallado el envio de mail: ';
 
 class EmailManager {
     constructor({user, pass}){
@@ -26,8 +26,8 @@ class EmailManager {
                 text: body
             }
             this.transporter.sendMail(mail, (err, info) => {
-                if(err) reject(err);
-                if(info) resolve(info);
+                if(err) reject(fail, err.message);
+                if(info) resolve(success, info.messageId);
             });
         });
     }
@@ -41,8 +41,8 @@ class EmailManager {
                 html: html
             }
             this.transporter.sendMail(mail, (err, info) => {
-                if(err) reject(err);
-                if(info) resolve(info);
+                if(err) reject(fail, err.message);
+                if(info) resolve(success, info.messageId);
             });
         });
     }
@@ -57,8 +57,8 @@ class EmailManager {
                 attachments: attachments
             };
             this.transporter.sendMail(mail, (err, info) => {
-                if(err) reject(err);
-                if(info) resolve(info);
+                if(err) reject(fail, err.message);
+                if(info) resolve(success, info.messageId);
             });
         })
     }
