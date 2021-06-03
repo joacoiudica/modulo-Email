@@ -25,11 +25,10 @@ class EmailManager {
                 subject: subject,
                 text: body
             }
-            this.transporter.sendMail(mail).then(r =>{
-                let response = r.response; 
-                if(response.includes('OK')) resolve(success);
-                else reject(new Error(`${fail} =>  response`));
-            })
+            this.transporter.sendMail(mail, (err, info) => {
+                if(err) reject(err);
+                if(info) resolve(info);
+            });
         });
     }
 
@@ -41,11 +40,10 @@ class EmailManager {
                 subject: subject,
                 html: html
             }
-            this.transporter.sendMail(mail).then(r =>{
-                let response = r.response; 
-                if(response.includes('OK')) resolve(success);
-                else reject(new Error(`${fail} =>  response`));
-            })
+            this.transporter.sendMail(mail, (err, info) => {
+                if(err) reject(err);
+                if(info) resolve(info);
+            });
         });
     }
 
@@ -58,10 +56,9 @@ class EmailManager {
                 text: body,
                 attachments: attachments
             };
-            this.transporter.sendMail(mail).then(r => {
-                let response = r.response; 
-                if(response.includes('OK')) resolve(success);
-                else reject(new Error(`${fail} =>  response`));
+            this.transporter.sendMail(mail, (err, info) => {
+                if(err) reject(err);
+                if(info) resolve(info);
             });
         })
     }
